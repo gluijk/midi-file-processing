@@ -1,12 +1,12 @@
-# Procesado de secuencias MIDI con R (I). DecodificaciÛn
-# www.datosimagensonido.com
+# Procesado de secuencias MIDI con R (I). Decodificaci√≥n
+# www.overfitting.net
 
 library(tuneR)
 library(data.table)
 library(tiff)
 
 
-# DECODIFICACI”N ARCHIVO MIDI
+# DECODIFICACI√ìN ARCHIVO MIDI
 
 mzmidi=readMidi("mazinger09.mid")  # Eventos MIDI
 mznotes=data.table(getMidiNotes(mzmidi))  # Solo notas:
@@ -26,44 +26,44 @@ abline(v=c(INFTr:SUPTr), h=c(1:16), col='gray', lty='dotted')
 axis(1, at=c(INFTr:SUPTr), cex.axis=0.7)
 axis(2, at=c(1:16), cex.axis=0.7)
 
-# Nos quedamos con una repeticiÛn de la melodÌa principal
+# Nos quedamos con una repetici√≥n de la melod√≠a principal
 BPM=185  # beats/min
 BEAT=480  # time de 1 beat
-COMPAS=BEAT*4  # time de 1 comp·s = 4 beats
+COMPAS=BEAT*4  # time de 1 comp√°s = 4 beats
 
-melodia=mznotes[which(mznotes$track==10), ]  # Pista melodÌa
-# Ajustamos inicio de la melodÌa con 1 comp·s (4 beats) vacÌo
+melodia=mznotes[which(mznotes$track==10), ]  # Pista melod√≠a
+# Ajustamos inicio de la melod√≠a con 1 comp√°s (4 beats) vac√≠o
 melodia$time=melodia$time-min(melodia$time)+COMPAS*1
-# El estribillo abarca 30 compases, m·s comp·s en blanco inicial
+# El estribillo abarca 30 compases, m√°s comp√°s en blanco inicial
 melodia=melodia[which(melodia$time<=COMPAS*31)]
 
-# Ploteamos melodÌa
+# Ploteamos melod√≠a
 INFTime=min(melodia$time)
 SUPTime=max(melodia$time)
 
 plot(melodia$time, melodia$note, xlim=c(INFTime,SUPTime),
-  main='MelodÌa', xlab='MIDI Time', ylab='MIDI Note',
+  main='Melod√≠a', xlab='MIDI Time', ylab='MIDI Note',
   col='red', pch = 16,  cex=0.8)
 lines(melodia$time, melodia$note, lty='dotted', type='s', col='gray') 
 
 
-# VISUALIZACI”N PISTA MIDI
+# VISUALIZACI√ìN PISTA MIDI
 
 # note=nota -> radio
-# time=tiempo -> ·ngulo inicial
-# length=duraciÛn -> delta angular
+# time=tiempo -> √°ngulo inicial
+# length=duraci√≥n -> delta angular
 
 # Normalizamos a valores [0..1]
 melodia$time=melodia$time-min(melodia$time)
-# max(melodia$time) = 55680 -> 60000=360∫
+# max(melodia$time) = 55680 -> 60000=360¬∫
 melodia$time=melodia$time/60000
 melodia$length=melodia$length/60000  # Mismo escalado que tiempos
-# Nota m·s baja con radio>0
+# Nota m√°s baja con radio>0
 melodia$note=melodia$note-min(melodia$note)+6 
 melodia$note=melodia$note/max(melodia$note)
 
 LADO=512
-SOLAPET=8/100  # Solape temporal (% de 360∫)
+SOLAPET=8/100  # Solape temporal (% de 360¬∫)
 SOLAPER=20/100  # Solape radial (100% el radio llega al centro)
 visualizacionmidi=array(0, c(LADO,LADO))
 
