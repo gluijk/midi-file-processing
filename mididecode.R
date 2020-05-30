@@ -1,5 +1,6 @@
 # Procesado de secuencias MIDI con R (I). Decodificación
 # www.overfitting.net
+# https://www.overfitting.net/2018/01/procesado-de-secuencias-midi-con-r-i.html
 
 library(tuneR)
 library(data.table)
